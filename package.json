@@ -1,0 +1,44 @@
+{
+  "name": "better-tail",
+  "version": "0.0.1",
+  "description": "Node.js implementation of UNIX tail command using streams. No dependencies.",
+  "main": "index.js",
+  "files": [
+    "index.js"
+  ],
+  "engines": {
+    "node": ">6.2.0"
+  },
+  "scripts": {
+    "lint": "standard index.js test/index.js",
+    "fix-lint": "npm run lint -- --fix",
+    "test": "mocha -b",
+    "preversion": "npm run minify"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/g-script/better-tail.git"
+  },
+  "keywords": [
+    "tail"
+  ],
+  "author": "Nicolas Goudry <goudry.nicolas@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/g-script/better-tail/issues"
+  },
+  "homepage": "https://github.com/g-script/better-tail#readme",
+  "devDependencies": {
+    "chai": "4.2.0",
+    "husky": "4.3.5",
+    "mocha": "8.2.1",
+    "standard": "16.0.3",
+    "terser": "5.5.1"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run lint",
+      "pre-push": "npm run test"
+    }
+  }
+}
