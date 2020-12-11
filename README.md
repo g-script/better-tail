@@ -125,6 +125,19 @@ First parameter is the target to tail data from. It can be:
 - a readable stream of target file
 - a file descriptor of target file
 
+```js
+const fs = require('fs')
+
+// Tail file from path
+new Tail('./some-file')
+
+// Tail file from readable stream
+new Tail(fs.createReadStream('./some-file', { encoding: 'utf8' }))
+
+// Tail file from file descriptor
+new Tail(fs.openSync('./some-file', 'r'))
+```
+
 ### :speech_balloon: Options
 
 Second parameter is an object of following `options`. Those options are equivalent to UNIX `tail` command.
