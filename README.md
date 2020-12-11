@@ -70,15 +70,15 @@ Node.js implementation of UNIX `tail` command using streams. No dependencies :no
 
 I needed to tail files for a corporate side project, made a few research on what was available, but nothing could 100% match my needs:
 
-- did not find any allowing to tail **with or without** following file
-- did not find any allowing to **target file’s N last lines**
+- did not find any package allowing to tail **with or without** following file
+- did not find any package allowing to **target file’s N last lines**
 - lots of them use EventEmitter rather than Stream
-- lots of them are unmaintained since *years*
+- lots of them are unmaintained since _years_
 - majority have unneeded dependencies
 
 ---
 
-At first, I wanted to tweak [Luca Grulla’s `tail`][lucagrullatail] package to add the features I needed. But, boy, it’s written in Coffeescript :man_facepalming:. What a nightmare.
+At first, I wanted to tweak [Luca Grulla’s `tail`][lucagrullatail] package to add the features I needed. But, boy, it’s written in Coffeescript :man_facepalming:. What a nightmare (at least, for me).
 
 So, I ended up decaffeinating it and rewriting it in pure JS. Then tweaked it as I wanted.
 
@@ -87,6 +87,8 @@ What I came up with was great, working and all, but then I stumbled upon an issu
 :thinking: “Why not use streams after all ?” Makes sense.
 
 Let me introduce you to `better-tail` then !
+
+*Note: not that it’s better than others, but other package names are either squatted or unavailable.*
 
 :point_down::point_down::point_down:
 
@@ -114,7 +116,7 @@ tail.on('data', function (line) {
 
 ## :nut_and_bolt: Parameters
 
-**All parameters are optional.**
+Only `target` parameter is required.
 
 ### :dart: Target
 
@@ -139,7 +141,7 @@ new Tail(target, { bytes: 42 })
 new Tail(target, { bytes: '+42' })
 ```
 
-_If this option is set, it superseeds [lines option][lines-option]_
+_If this option is set, it superseeds [lines option][lines-option]._
 
 #### follow _(default: false)_
 
@@ -175,7 +177,7 @@ new Tail(target, { bytes: 42 })
 new Tail(target, { bytes: '+42' })
 ```
 
-_This option is superseeded by [bytes option][bytes-option]_
+_This option is superseeded by [bytes option][bytes-option]._
 
 #### retry _(default: false)_
 
