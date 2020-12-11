@@ -12,8 +12,7 @@
   "scripts": {
     "lint": "standard index.js test/index.js",
     "fix-lint": "npm run lint -- --fix",
-    "test": "mocha -b",
-    "preversion": "npm run minify"
+    "test": "mocha -b"
   },
   "repository": {
     "type": "git",
