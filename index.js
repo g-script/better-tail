@@ -2,49 +2,7 @@ const fs = require('fs')
 const readline = require('readline')
 const { Readable } = require('stream')
 
-const { validateOptions } = require('./utils')
- * Check if given fd is a valid file descriptor
- * @param {Number} fd File descriptor
- * @throws original fs.fstatSync error
- * @returns {Boolean} indicating fd is valid or not
- */
-function isFD (fd) {
-  if (fd && typeof fd === 'number') {
-    try {
-      fs.fstatSync(fd)
-
-      return fd
-    } catch (err) {
-      if (err.code === 'EBADF') {
-        return false
-      }
-
-      throw err
-    }
-  } else if (fd && fd.fd) {
-    return isFD(fd.fd)
-  }
-
-  return false
-}
-
-/**
- * Get debugging function
- * @param {Boolean|Function} debug If true, will set debugger to `console.debug`; if function, will set debugger to this function;
- *                                  if anything else, will set debugger to no-op
- * @returns {Function}
- */
-const createDebugger = (debug) => {
-  if (typeof debug === 'function') {
-    return debug
-  }
-
-  if (debug === true || process.env.DEBUG_TAIL) {
-    return console.log
-  }
-
-  return () => {}
-}
+const { createDebugger, validateOptions, getFileDescriptor } = require('./utils')
 
 class Tail extends Readable {
   /**
@@ -119,7 +77,7 @@ class Tail extends Readable {
     this.debug('Guessing target type')
 
     try {
-      const fd = isFD(target)
+      const fd = getFileDescriptor(target)
 
       if (fd) {
         this.type = 'fd'
