@@ -1,6 +1,6 @@
 {
   "name": "better-tail",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Node.js implementation of UNIX tail command using streams. No dependencies.",
   "main": "index.js",
   "files": [
