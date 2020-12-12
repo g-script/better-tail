@@ -163,9 +163,32 @@ new Tail(target, { bytes: '+42' })
 
 #### retry _(default: false)_
 
-#### retry _(default: false)_
+If set to true: keep trying to open target file if it is inaccessible.
 
-Keep trying to open target file if it is inaccessible. This option uses [sleepInterval option][sleepinterval-option] value to wait between retries.
+Can also be an object with following properties:
+- **interval**: wait for given milliseconds between retries
+- **timeout**: abort retrying after given milliseconds
+- **max**: abort retrying after given retries count
+
+> _This option uses [sleepInterval option][sleepinterval-option] value by default to wait between retries._
+
+```js
+// Will retry indefinitly, approximately each second (default value of sleepInterval option), until file is accessible
+new Tail(target, { retry: true })
+
+// Will wait for approximately 5 seconds between retries
+new Tail(target, { retry: { interval: 5000 } })
+
+// Will retry for approximately 5 seconds before aborting
+new Tail(target, { retry: { timeout: 5000 } })
+
+// Will retry 3 times before aborting
+// Note: first try is not counted, so file access will be tried 4 times
+new Tail(target, { retry: { max: 3 } })
+
+// Will retry 5 times or approximately 3 seconds before aborting
+new Tail(target, { retry: { timeout: 3000, max: 5, interval: 5000 } })
+```
 
 #### sleepInterval _(default: 1000)_
 
