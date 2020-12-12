@@ -203,6 +203,14 @@ describe('better-tail', function () {
         it('should superseed lines option', function (done) {
             test(corpus.path, done, { lines: 42 })
         })
+
+        it('should fail with invalid value', function (done) {
+            new Tail(corpus.path, { bytes: 'abc' }).on('error', (err) => {
+                expect(err).to.be.instanceof(Error)
+                    .and.have.property('message').that.match(/^Invalid value provided to/)
+                done()
+            })
+        })
     })
 
     describe('bytes option (from byte)', function () {
@@ -285,6 +293,14 @@ describe('better-tail', function () {
     
         it('should work with file read stream', function (done) {
             test(corpus.rs, done)
+        })
+
+        it('should fail with invalid value', function (done) {
+            new Tail(corpus.path, { lines: {} }).on('error', (err) => {
+                expect(err).to.be.instanceof(Error)
+                    .and.have.property('message').that.match(/^Invalid value provided to/)
+                done()
+            })
         })
     })
 
@@ -370,6 +386,14 @@ describe('better-tail', function () {
                     fs.unlinkSync(receivedLogPath)
                 }
                 
+                done()
+            })
+        })
+
+        it('should fail with invalid value', function (done) {
+            new Tail(corpus.path, { follow: [] }).on('error', (err) => {
+                expect(err).to.be.instanceof(Error)
+                    .and.have.property('message').that.match(/^Invalid value provided to/)
                 done()
             })
         })
