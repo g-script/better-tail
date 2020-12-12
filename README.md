@@ -63,7 +63,7 @@ Let me introduce you to `better-tail` then !
 
 ## :floppy_disk: Installation
 
-**Node.js version 6.3 or higher is required.**
+**Node.js version 8 or higher is required.**
 
 ```bash
 npm install better-tail --save # or yarn add better-tail
