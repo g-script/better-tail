@@ -108,7 +108,7 @@ class Tail extends Readable {
 
   /**
      * Guess target type
-     * @param {String|Number|ReadStream} [target=process.stdin] Target to tail data from
+     * @param {String|Number|ReadStream} target Target to tail data from
      * @emits Tail#error if invalid target was provided or fd check failed
      * @returns {void}
      */
