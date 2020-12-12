@@ -205,7 +205,9 @@ describe('better-tail', function () {
         })
 
         it('should fail with invalid value', function (done) {
-            new Tail(corpus.path, { bytes: 'abc' }).on('error', (err) => {
+            new Tail(corpus.path, {
+                bytes: 'abc'
+            }).on('error', (err) => {
                 expect(err).to.be.instanceof(Error)
                     .and.have.property('message').that.match(/^Invalid value provided to/)
                 done()
@@ -296,7 +298,9 @@ describe('better-tail', function () {
         })
 
         it('should fail with invalid value', function (done) {
-            new Tail(corpus.path, { lines: {} }).on('error', (err) => {
+            new Tail(corpus.path, {
+                lines: {}
+            }).on('error', (err) => {
                 expect(err).to.be.instanceof(Error)
                     .and.have.property('message').that.match(/^Invalid value provided to/)
                 done()
@@ -391,7 +395,9 @@ describe('better-tail', function () {
         })
 
         it('should fail with invalid value', function (done) {
-            new Tail(corpus.path, { follow: [] }).on('error', (err) => {
+            new Tail(corpus.path, {
+                follow: []
+            }).on('error', (err) => {
                 expect(err).to.be.instanceof(Error)
                     .and.have.property('message').that.match(/^Invalid value provided to/)
                 done()
