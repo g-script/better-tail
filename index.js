@@ -147,6 +147,8 @@ class Tail extends Readable {
     * @returns {void}
     */
   _checkFile (cb) {
+    clearTimeout(this.retryTimeout)
+
     try {
       if (this.type === 'path') {
         this.debug('Checking target availability')
@@ -156,16 +158,22 @@ class Tail extends Readable {
         this.debug('Target is available')
       }
 
+      clearTimeout(this.retryTimeout)
+
+      this.retryTimeout = undefined
+
       cb()
     } catch (err) {
       if (this.options.retry) {
-        this.debug('Failed to check target, retrying now…')
+        this.retryTimeout = setTimeout(() => {
+          this.debug('Failed to check target, retrying now…')
 
-        return this._checkFile()
+          return this._checkFile(cb)
+        }, this.options.sleepInterval)
+      } else {
+        this.debug('Failed to check target availability:', err)
+        this.destroy(err)
       }
-
-      this.debug('Failed to check target availability:', err)
-      this.destroy(err)
     }
   }
 
