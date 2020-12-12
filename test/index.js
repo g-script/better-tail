@@ -477,6 +477,27 @@ describe('better-tail', function () {
             })
         })
 
+        it('should retry each 2 seconds', function (done) {
+            this.timeout(10000)
+            this.slow(11000)
+
+            const data = []
+            const fileWriteTimeout = setTimeout(() => {
+                fs.writeFileSync(filePathToWait, corpus.expectations.noOptions, { encoding: 'utf8' })
+            }, 4500)
+
+            new Tail(filePathToWait, {
+                retry: {
+                    interval: 2000
+                }
+            }).on('end', () => {
+                done()
+            })
+            .on('error', (err) => {
+                done(err)
+            })
+        })
+
         it('should fail with invalid value', function (done) {
             new Tail(corpus.path, {
                 retry: () => {}
