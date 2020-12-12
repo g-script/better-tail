@@ -197,7 +197,7 @@ _This option is superseeded by [bytes option][bytes-option]._
 
 #### retry _(default: false)_
 
-Keep trying to open target file if it is inaccessible.
+Keep trying to open target file if it is inaccessible. This option uses [sleepInterval option][sleepinterval-option] value to wait between retries.
 
 #### sleepInterval _(default: 1000)_
 
