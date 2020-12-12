@@ -136,7 +136,7 @@ describe('better-tail', function () {
         }
     })
 
-    describe('should tail file last 10 lines (default)', function () {
+    describe('no options', function () {
         function test (target, done) {
             const data = []
     
@@ -150,21 +150,21 @@ describe('better-tail', function () {
             })
         }
 
-        it('with target file path', function (done) {
+        it('should work with file path', function (done) {
             test(corpus.path, done)
         })
     
-        it('with file descriptor', function (done) {
+        it('should work with file descriptor', function (done) {
             test(corpus.fd, done)
         })
     
-        it('with stream', function (done) {
+        it('should work with file read stream', function (done) {
             test(corpus.rs, done)
         })
     })
 
-    describe('should tail file last N bytes', function () {
-        function test (target, done) {
+    describe('bytes option (last bytes)', function () {
+        function test (target, done, options = {}) {
             // Get content length in bytes
             const contentByteLength = Buffer.byteLength(corpus.expectations.content, 'utf8')
 
@@ -177,9 +177,9 @@ describe('better-tail', function () {
 
             const data = []
     
-            new Tail(target, {
+            new Tail(target, Object.assign(options, {
                 bytes
-            }).on('data', (line) => {
+            })).on('data', (line) => {
                 data.push(line)
             }).on('end', () => {
                 expect(data[0]).to.be.instanceof(Buffer, 'Expected data to be an instance of Buffer')
@@ -188,20 +188,24 @@ describe('better-tail', function () {
             })
         }
 
-        it('with target file path', function (done) {
+        it('should work with file path', function (done) {
             test(corpus.path, done)
         })
     
-        it('with file descriptor', function (done) {
+        it('should work with file descriptor', function (done) {
             test(corpus.fd, done)
         })
     
-        it('with stream', function (done) {
+        it('should work with file read stream', function (done) {
             test(corpus.rs, done)
+        })
+
+        it('should superseed lines option', function (done) {
+            test(corpus.path, done, { lines: 42 })
         })
     })
 
-    describe('should tail file from Nth byte', function () {
+    describe('bytes option (from byte)', function () {
         function test (target, done) {
             // Get content length in bytes
             const contentByteLength = Buffer.byteLength(corpus.expectations.content, 'utf8')
@@ -226,20 +230,20 @@ describe('better-tail', function () {
             })
         }
 
-        it('with target file path', function (done) {
+        it('should work with file path', function (done) {
             test(corpus.path, done)
         })
     
-        it('with file descriptor', function (done) {
+        it('should work with file descriptor', function (done) {
             test(corpus.fd, done)
         })
     
-        it('with stream', function (done) {
+        it('should work with file read stream', function (done) {
             test(corpus.rs, done)
         })
     })
 
-    describe('should tail file last N lines', function () {
+    describe('lines option (last lines)', function () {
         function test (target, done) {
             // Get content length in bytes
             const contentByteLength = Buffer.byteLength(corpus.expectations.content, 'utf8')
@@ -271,20 +275,20 @@ describe('better-tail', function () {
             })
         }
 
-        it('with target file path', function (done) {
+        it('should work with file path', function (done) {
             test(corpus.path, done)
         })
     
-        it('with file descriptor', function (done) {
+        it('should work with file descriptor', function (done) {
             test(corpus.fd, done)
         })
     
-        it('with stream', function (done) {
+        it('should work with file read stream', function (done) {
             test(corpus.rs, done)
         })
     })
 
-    describe('should tail file from Nth line', function () {
+    describe('lines option (from line)', function () {
         function test (target, done) {
             // Get content length in bytes
             const contentByteLength = Buffer.byteLength(corpus.expectations.content, 'utf8')
@@ -315,20 +319,20 @@ describe('better-tail', function () {
             })
         }
 
-        it('with target file path', function (done) {
+        it('should work with file path', function (done) {
             test(corpus.path, done)
         })
     
-        it('with file descriptor', function (done) {
+        it('should work with file descriptor', function (done) {
             test(corpus.fd, done)
         })
     
-        it('with stream', function (done) {
+        it('should work with file read stream', function (done) {
             test(corpus.rs, done)
         })
     })
 
-    describe('follow mode', function () {
+    describe('follow option', function () {
         it('should follow data quickly appended to file (backpressure)', function (done) {
             const rndStrSize = randomInt()
     
@@ -372,9 +376,18 @@ describe('better-tail', function () {
     })
 
     describe('errors', function () {
+        it('should fail to tail undefined target', function (done) {
+            new Tail().on('error', (err) => {
+                expect(err).to.be.instanceof(Error)
+                    .and.have.property('message', 'Invalid target provided')
+                done()
+            })
+        })
+
         it('should fail to tail invalid file', function (done) {
             new Tail(path.resolve(__dirname, `${randomString(10)}.txt`)).on('error', (err) => {
                 expect(err).to.be.instanceof(Error)
+                    .and.have.property('code', 'ENOENT')
                 done()
             })
         })
@@ -382,6 +395,7 @@ describe('better-tail', function () {
         it('should fail to tail invalid file descriptor', function (done) {
             new Tail(654).on('error', (err) => {
                 expect(err).to.be.instanceof(Error)
+                    .and.have.property('message', 'Invalid target provided')
                 done()
             })
         })
