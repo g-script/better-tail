@@ -116,16 +116,11 @@ class Tail extends Readable {
     this.debug('Guessing target type')
 
     try {
-      if (!target) {
-        this.type = 'stream'
-        this.target = process.stdin
-        this.options.follow = true
-      } else if (isFD(target)) {
+      const fd = isFD(target)
+
+      if (fd) {
         this.type = 'fd'
-        this.target = target
-      } else if (isFD(target.fd)) {
-        this.type = 'fd'
-        this.target = target.fd
+        this.target = fd
       } else if (target instanceof fs.ReadStream) {
         this.type = 'stream'
         this.target = target
