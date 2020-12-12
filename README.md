@@ -29,6 +29,7 @@ Node.js implementation of UNIX `tail` command using streams. No dependencies :no
   - [end][end-event]
 - [:construction: What’s coming next?][next]
 - [:beetle: Debugging][debugging]
+- [:game_die: Running tests][running-tests]
 - [:1234: Versioning][versioning]
 - [:octocat: Authors][authors]
 - [:pray: Acknowledgments][acknowledgments]
@@ -230,6 +231,25 @@ If `DEBUG_TAIL` environment variable is defined, but `debug` option is not set, 
 
 If `debug` option is a function, it will be run with a single message argument.
 
+## :game_die: Running tests
+
+This package is tested against multiple different scenarios with [Mocha][mocha] and [chai][chai] (through `expect` BDD style).
+
+In order to run tests locally, you have to:
+- clone this repository
+- install development dependencies with `npm install` (or `yarn install`)
+- run tests with `npm test` (or `yarn test`)
+
+_Note: tests are run in bail mode. This means that whenever a test fails, all following tests are aborted._
+
+### Debugging tests buffers
+
+Because tests work with buffers, it can be tedious to debug them and understand why they fail.
+
+To make this easier, you can define a `DEBUG_BUFFERS` environment variable (to any value) in order to enable « buffers debugging mode ». This mode will simply write two files for each tests failing (each file is prefixed by test number `x`):
+- expected result: `x_expected.log`
+- received result: `x_received.log`
+
 ## :1234: Versioning
 
 This project uses [SemVer][semver] for versioning. For the versions available, see the [tags on this repository][repotags]. 
@@ -272,6 +292,9 @@ Obviously, [Luca Grulla][lucagrulla] for inspiring me to do this.
 [end-event]: #end
 [next]: #construction-whats-coming-next
 [debugging]: #beetle-debugging
+[running-tests]: #game_die-running-tests
+[mocha]: https://mochajs.org
+[chai]: https://www.chaijs.com/api/bdd/
 [contributing]: #busts_in_silhouette-contributing
 [contribute]: https://github.com/g-script/better-tail/blob/master/CONTRIBUTING.md
 [versioning]: #1234-versioning
