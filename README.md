@@ -30,6 +30,7 @@ Node.js implementation of UNIX `tail` command using streams. No dependencies :no
 - [:construction: What’s coming next?][next]
 - [:beetle: Debugging][debugging]
 - [:game_die: Running tests][running-tests]
+- [:busts_in_silhouette: Contributing][contributing]
 - [:1234: Versioning][versioning]
 - [:octocat: Authors][authors]
 - [:pray: Acknowledgments][acknowledgments]
@@ -249,6 +250,10 @@ Because tests work with buffers, it can be tedious to debug them and understand 
 To make this easier, you can define a `DEBUG_BUFFERS` environment variable (to any value) in order to enable « buffers debugging mode ». This mode will simply write two files for each tests failing (each file is prefixed by test number `x`):
 - expected result: `x_expected.log`
 - received result: `x_received.log`
+
+## :busts_in_silhouette: Contributing
+
+See [CONTRIBUTING.md][contribute].
 
 ## :1234: Versioning
 
