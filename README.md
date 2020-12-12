@@ -109,11 +109,13 @@ new Tail(fs.openSync('./some-file', 'r'))
 
 ### :speech_balloon: Options
 
-Second parameter is an object of following `options`. Those options are equivalent to UNIX `tail` command.
+Second parameter is an object of following `options` (heavily inspired by UNIX `tail` command options):
 
 #### bytes _(default: undefined)_
 
 Number of bytes to tail. Can be prepend with `+` to start tailing from given byte.
+
+> _If this option is set, it superseeds [lines option][lines-option]._
 
 ```js
 // Will return lines in last 42 bytes of target content
@@ -122,8 +124,6 @@ new Tail(target, { bytes: 42 })
 // Will return lines starting from byte 42 until target content end
 new Tail(target, { bytes: '+42' })
 ```
-
-_If this option is set, it superseeds [lines option][lines-option]._
 
 #### follow _(default: false)_
 
@@ -151,6 +151,8 @@ setTimeout(function () {
 
 Number of lines to tail. Can be prepend with `+` to start tailing from given line.
 
+> _This option is superseeded by [bytes option][bytes-option]._
+
 ```js
 // Will return last 42 lines of target content
 new Tail(target, { bytes: 42 })
@@ -159,7 +161,7 @@ new Tail(target, { bytes: 42 })
 new Tail(target, { bytes: '+42' })
 ```
 
-_This option is superseeded by [bytes option][bytes-option]._
+#### retry _(default: false)_
 
 #### retry _(default: false)_
 
@@ -169,11 +171,28 @@ Keep trying to open target file if it is inaccessible. This option uses [sleepIn
 
 Sleep for approximately N milliseconds between target content next poll.
 
-_This option has no effect if [follow option][follow-option] is set to `false`._
+> _This option has no effect if [follow option][follow-option] is set to `false`._
+
+```js
+// Will poll target new data approximately each 5 seconds
+new Tail(target, { follow: true, sleepInterval: 5000 })
+```
 
 #### encoding _(default: 'utf8')_
 
 Set target’s content encoding.
+
+Supported encodings are [those supported by Node.js][node-encodings]:
+- `utf8`
+- `utf16le`
+- `latin1`
+- `base64`
+- `hex`
+- `ascii`
+- `binary`
+- `ucs2`
+
+[:bulb: Seeking help for testing this option][encoding-tests-help-wanted]
 
 ## :scroll: Methods
 
@@ -309,3 +328,5 @@ Obviously, [Luca Grulla][lucagrulla] for inspiring me to do this.
 [repotags]: https://github.com/g-script/better-tail/tags
 [nicolas-goudry]: https://github.com/nicolas-goudry
 [lucagrulla]: https://github.com/lucagrulla
+[node-encodings]: https://nodejs.org/docs/latest-v14.x/api/buffer.html#buffer_buffers_and_character_encodings
+[encoding-tests-help-wanted]: https://github.com/g-script/better-tail/issues/20
