@@ -164,7 +164,7 @@ describe('better-tail', function () {
     })
 
     describe('bytes option (last bytes)', function () {
-        function test (target, done) {
+        function test (target, done, options = {}) {
             // Get content length in bytes
             const contentByteLength = Buffer.byteLength(corpus.expectations.content, 'utf8')
 
@@ -177,9 +177,9 @@ describe('better-tail', function () {
 
             const data = []
     
-            new Tail(target, {
+            new Tail(target, Object.assign(options, {
                 bytes
-            }).on('data', (line) => {
+            })).on('data', (line) => {
                 data.push(line)
             }).on('end', () => {
                 expect(data[0]).to.be.instanceof(Buffer, 'Expected data to be an instance of Buffer')
@@ -198,6 +198,10 @@ describe('better-tail', function () {
     
         it('should work with file read stream', function (done) {
             test(corpus.rs, done)
+        })
+
+        it('should superseed lines option', function (done) {
+            test(corpus.path, done, { lines: 42 })
         })
     })
 
