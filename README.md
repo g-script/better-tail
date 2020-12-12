@@ -28,6 +28,7 @@ Node.js implementation of UNIX `tail` command using streams. No dependencies :no
   - [error][error-event]
   - [end][end-event]
 - [:construction: What’s coming next?][next]
+- [:beetle: Debugging][debugging]
 - [:1234: Versioning][versioning]
 - [:octocat: Authors][authors]
 - [:pray: Acknowledgments][acknowledgments]
@@ -217,6 +218,18 @@ This event is emitted each time target content end is reached. Therefore, it can
 - raw data (as Buffer) will be emitted through `data` event
 - add support for readable streams not targetting files
 
+## :beetle: Debugging
+
+Debugging is built-in and can be triggered in two ways:
+- defining the environment variable `DEBUG_TAIL` (to any value)
+- defining the constructor `debug` option to:
+  - `true`
+  - a function that takes a message as it first argument
+
+If `DEBUG_TAIL` environment variable is defined, but `debug` option is not set, debugging will default to `console.log`. Same behavior apply if `debug` option is set to `true`.
+
+If `debug` option is a function, it will be run with a single message argument.
+
 ## :1234: Versioning
 
 This project uses [SemVer][semver] for versioning. For the versions available, see the [tags on this repository][repotags]. 
@@ -258,6 +271,7 @@ Obviously, [Luca Grulla][lucagrulla] for inspiring me to do this.
 [error-event]: #error
 [end-event]: #end
 [next]: #construction-whats-coming-next
+[debugging]: #beetle-debugging
 [contributing]: #busts_in_silhouette-contributing
 [contribute]: https://github.com/g-script/better-tail/blob/master/CONTRIBUTING.md
 [versioning]: #1234-versioning
