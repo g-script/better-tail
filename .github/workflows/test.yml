@@ -15,14 +15,28 @@ jobs:
           node-version: 14
       - run: npm ci
       - run: npm run lint
-  test:
+  test-pre-node-10:
     needs: lint
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node: [6, 7, 8, 9]
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+      - run: npm i
+      - run: npm test
+  test-from-node-10:
+    needs: [lint, test-pre-node-10]
     runs-on: ${{ matrix.os }}
     continue-on-error: ${{ matrix.experimental }}
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node: [6.3.0, 6, 7, 8, 9, 10, 11, 12, 13, 14]
+        node: [10, 11, 12, 13, 14]
         experimental: [false]
         include:
           - node: 15
