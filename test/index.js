@@ -408,7 +408,7 @@ describe('better-tail', function () {
     describe('retry option', function () {
         const filePathToWait = path.resolve(__dirname, 'im-coming-in-5.txt')
 
-        after(function () {
+        afterEach(function () {
             if (fs.existsSync(filePathToWait)) {
                 fs.unlinkSync(filePathToWait)
             }
@@ -431,6 +431,48 @@ describe('better-tail', function () {
             }).on('end', () => {
                 expect(data[0]).to.be.instanceof(Buffer, 'Expected data to be an instance of Buffer')
                 expectBuffToBeEqual(Buffer.concat(addLT(data)), corpus.expectations.noOptions)
+                done()
+            })
+        })
+
+        it('should retry for 5 seconds', function (done) {
+            this.timeout(10000)
+            this.slow(11000)
+
+            const data = []
+            const fileWriteTimeout = setTimeout(() => {
+                fs.writeFileSync(filePathToWait, corpus.expectations.noOptions, { encoding: 'utf8' })
+            }, 5500)
+
+            new Tail(filePathToWait, {
+                retry: {
+                    timeout: 5000
+                }
+            }).on('error', (err) => {
+                clearTimeout(fileWriteTimeout)
+                expect(err).to.be.instanceof(Error)
+                    .and.have.property('message', 'Retry timeout reached')
+                done()
+            })
+        })
+
+        it('should retry 3 times', function (done) {
+            this.timeout(10000)
+            this.slow(11000)
+
+            const data = []
+            const fileWriteTimeout = setTimeout(() => {
+                fs.writeFileSync(filePathToWait, corpus.expectations.noOptions, { encoding: 'utf8' })
+            }, 6000)
+
+            new Tail(filePathToWait, {
+                retry: {
+                    max: 3
+                }
+            }).on('error', (err) => {
+                clearTimeout(fileWriteTimeout)
+                expect(err).to.be.instanceof(Error)
+                    .and.have.property('message', 'Max retries reached')
                 done()
             })
         })
