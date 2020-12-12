@@ -1,3 +1,5 @@
+[actionshield]: https://github.com/g-script/better-tail/workflows/Lint%20and%20test%20JS%20files/badge.svg
+[actions]: https://github.com/g-script/better-tail/actions
 [npmshield]: https://img.shields.io/npm/v/better-tail.svg
 [npmpackage]: https://www.npmjs.com/package/better-tail
 [standardshield]: https://img.shields.io/badge/code_style-standard-brightgreen.svg
@@ -37,6 +39,7 @@
 
 Node.js implementation of UNIX `tail` command using streams. No dependencies :no_entry_sign:.
 
+[![Actions Status][actionshield]][actions]
 [![npm][npmshield]][npmpackage]
 [![JavaScript Style Guide][standardshield]][standard]
 [![license][licenseshield]][license]
