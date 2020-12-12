@@ -5,7 +5,7 @@ const fs = require('fs')
 const path = require('path')
 
 const expect = chai.expect
-const Tail = require('../index.js')
+const Tail = require('../lib/index.js')
 const DEB_BUFF = process.env.DEBUG_BUFFERS
 let curTest = 0
 

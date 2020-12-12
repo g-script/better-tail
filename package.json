@@ -2,15 +2,16 @@
   "name": "better-tail",
   "version": "0.0.4",
   "description": "Node.js implementation of UNIX tail command using streams. No dependencies.",
-  "main": "index.js",
+  "main": "lib/index.js",
   "files": [
-    "index.js"
+    "lib/index.js",
+    "lib/utils.js"
   ],
   "engines": {
     "node": ">6.2.0"
   },
   "scripts": {
-    "lint": "standard index.js test/index.js",
+    "lint": "standard lib/*.js test/*.js",
     "fix-lint": "npm run lint -- --fix",
     "test": "mocha -b"
   },
