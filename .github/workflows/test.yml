@@ -21,13 +21,14 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        node: [6, 7, 8, 9]
+        node: [8, 9]
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node }}
       - run: npm i
+      - run: npm i -D mocha@7
       - run: npm test
   test-from-node-10:
     needs: [lint, test-pre-node-10]
