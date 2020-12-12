@@ -243,12 +243,12 @@ All JavaScript code is linted with [Standard][standard].
 [mozilla-coc]: https://github.com/mozilla/diversity
 [contributor-covenant-faq]: https://www.contributor-covenant.org/faq
 [newdiscussion]: https://github.com/g-script/better-tail/discussions/new
-[readme]: https://github.com/g-script/better-tail/blob/master/README.md
-[readme-debug]: https://github.com/g-script/better-tail/blob/master/README.md#beetle-debugging
-[readme-tests]: https://github.com/g-script/better-tail/blob/master/README.md#game_die-running-tests
+[readme]: https://github.com/g-script/better-tail/blob/main/README.md
+[readme-debug]: https://github.com/g-script/better-tail/blob/main/README.md#beetle-debugging
+[readme-tests]: https://github.com/g-script/better-tail/blob/main/README.md#game_die-running-tests
 [issues]: https://github.com/g-script/better-tail/issues?q=is%3Aissue+is%3Aopen
-[bug-report-template]: https://github.com/g-script/better-tail/blob/master/.github/ISSUE_TEMPLATE/bug_report.md
-[feature-request-template]: https://github.com/g-script/better-tail/blob/master/.github/ISSUE_TEMPLATE/feature_request.md
+[bug-report-template]: https://github.com/g-script/better-tail/blob/main/.github/ISSUE_TEMPLATE/bug_report.md
+[feature-request-template]: https://github.com/g-script/better-tail/blob/main/.github/ISSUE_TEMPLATE/feature_request.md
 [beginner]: https://github.com/g-script/better-tail/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22+sort%3Acomments-desc
 [help-wanted]: https://github.com/g-script/better-tail/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22+sort%3Acomments-desc
 [status-checks]: https://help.github.com/articles/about-status-checks

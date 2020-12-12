@@ -274,7 +274,7 @@ Obviously, [Luca Grulla][lucagrulla] for inspiring me to do this.
 [standardshield]: https://img.shields.io/badge/code_style-standard-brightgreen.svg
 [standard]: https://standardjs.com
 [licenseshield]: https://img.shields.io/github/license/mashape/apistatus.svg
-[license]: https://github.com/g-script/better-tail/blob/master/LICENSE
+[license]: https://github.com/g-script/better-tail/blob/main/LICENSE
 [lucagrullatail]: https://www.npmjs.com/package/tail
 [tailissue]: https://github.com/lucagrulla/node-tail/issues/115
 [motivation]: #fire-motivation
@@ -301,7 +301,7 @@ Obviously, [Luca Grulla][lucagrulla] for inspiring me to do this.
 [mocha]: https://mochajs.org
 [chai]: https://www.chaijs.com/api/bdd/
 [contributing]: #busts_in_silhouette-contributing
-[contribute]: https://github.com/g-script/better-tail/blob/master/CONTRIBUTING.md
+[contribute]: https://github.com/g-script/better-tail/blob/main/CONTRIBUTING.md
 [versioning]: #1234-versioning
 [authors]: #octocat-authors
 [acknowledgments]: #pray-acknowledgments
