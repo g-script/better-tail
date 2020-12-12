@@ -121,7 +121,7 @@ describe('better-tail', function () {
             const maxRetry = this.currentTest.retries()
             
             // Only clean debug log files if current retry lesser than max allowed retries and test is not in error
-            if (curRetry > 0 && curRetry < maxRetry && !this.currentTest.err) {
+            if (curRetry >= 0 && curRetry < maxRetry && !this.currentTest.err) {
                 const receivedLogPath = getReceivedLogPath()
                 const expectedLogPath = getExpectedLogPath()
 
