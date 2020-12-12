@@ -2,7 +2,7 @@ const fs = require('fs')
 const readline = require('readline')
 const { Readable } = require('stream')
 
-/**
+const { validateOptions } = require('./utils')
  * Check if given fd is a valid file descriptor
  * @param {Number} fd File descriptor
  * @throws original fs.fstatSync error
@@ -60,17 +60,20 @@ class Tail extends Readable {
    * @emits Tail#error if target is invalid or file doesn’t exists or user lacks permissions on file
    * @returns {ReadableStream}
    */
-  constructor (target, options) {
+  constructor (target, options = {}) {
     super()
 
-    this.options = Object.assign({
-      follow: false,
-      lines: 10,
-      retry: false,
-      sleepInterval: 1000,
-      encoding: 'utf8'
-    }, options)
-    this.debug = createDebugger(this.options.debug)
+    this.debug = createDebugger(options.debug)
+
+    try {
+      this.options = validateOptions(options)
+    } catch (err) {
+      this.options = {}
+
+      this.destroy(err)
+
+      return this
+    }
 
     this.debug('Tail target:', target)
     this.debug('Tail options:', JSON.stringify(this.options, null, 2))
