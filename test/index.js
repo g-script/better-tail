@@ -416,13 +416,13 @@ describe('better-tail', function () {
 
         it('should retry until file is accessible', function (done) {
             this.timeout(10000)
-            this.slow(5500)
+            this.slow(11000)
 
             const data = []
 
             setTimeout(() => {
                 fs.writeFileSync(filePathToWait, corpus.expectations.noOptions, { encoding: 'utf8' })
-            })
+            }, 5000)
 
             new Tail(filePathToWait, {
                 retry: true
