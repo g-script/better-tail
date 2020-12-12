@@ -376,6 +376,14 @@ describe('better-tail', function () {
     })
 
     describe('errors', function () {
+        it('should fail to tail undefined target', function (done) {
+            new Tail().on('error', (err) => {
+                expect(err).to.be.instanceof(Error)
+                    .and.have.property('message', 'Invalid target provided')
+                done()
+            })
+        })
+
         it('should fail to tail invalid file', function (done) {
             new Tail(path.resolve(__dirname, `${randomString(10)}.txt`)).on('error', (err) => {
                 expect(err).to.be.instanceof(Error)
