@@ -1,40 +1,3 @@
-[actionshield]: https://github.com/g-script/better-tail/workflows/Lint%20and%20test%20JS%20files/badge.svg
-[actions]: https://github.com/g-script/better-tail/actions
-[npmshield]: https://img.shields.io/npm/v/better-tail.svg
-[npmpackage]: https://www.npmjs.com/package/better-tail
-[standardshield]: https://img.shields.io/badge/code_style-standard-brightgreen.svg
-[standard]: https://standardjs.com
-[licenseshield]: https://img.shields.io/github/license/mashape/apistatus.svg
-[license]: https://github.com/g-script/better-tail/blob/master/LICENSE
-[lucagrullatail]: https://www.npmjs.com/package/tail
-[tailissue]: https://github.com/lucagrulla/node-tail/issues/115
-[motivation]: #fire-motivation
-[installation]: #floppy_disk-installation
-[usage]: #beginner-usage
-[parameters]: #nut_and_bolt-parameters
-[target]: #dart-target
-[options]: #speech_balloon-options
-[bytes-option]: #bytes-default-undefined
-[follow-option]: #follow-default-false
-[lines-option]: #lines-default-10
-[retry-option]: #retry-default-false
-[sleepinterval-option]: #sleepinterval-default-1000
-[encoding-option]: #encoding-default-utf8
-[methods]: #book-methods
-[unfollow-method]: #unfollow
-[events]: #calendar-events
-[data-event]: #data
-[error-event]: #error
-[end-event]: #end
-[next]: #construction-whats-coming-next
-[versioning]: #1234-versioning
-[authors]: #octocat-authors
-[acknowledgments]: #pray-acknowledgments
-[semver]: http://semver.org
-[repotags]: https://github.com/g-script/better-tail/tags
-[nicolas-goudry]: https://github.com/nicolas-goudry
-[lucagrulla]: https://github.com/lucagrulla
-
 # better-tail
 
 Node.js implementation of UNIX `tail` command using streams. No dependencies :no_entry_sign:.
@@ -65,6 +28,9 @@ Node.js implementation of UNIX `tail` command using streams. No dependencies :no
   - [error][error-event]
   - [end][end-event]
 - [:construction: What’s coming next?][next]
+- [:beetle: Debugging][debugging]
+- [:game_die: Running tests][running-tests]
+- [:busts_in_silhouette: Contributing][contributing]
 - [:1234: Versioning][versioning]
 - [:octocat: Authors][authors]
 - [:pray: Acknowledgments][acknowledgments]
@@ -254,6 +220,41 @@ This event is emitted each time target content end is reached. Therefore, it can
 - raw data (as Buffer) will be emitted through `data` event
 - add support for readable streams not targetting files
 
+## :beetle: Debugging
+
+Debugging is built-in and can be triggered in two ways:
+- defining the environment variable `DEBUG_TAIL` (to any value)
+- defining the constructor `debug` option to:
+  - `true`
+  - a function that takes a message as it first argument
+
+If `DEBUG_TAIL` environment variable is defined, but `debug` option is not set, debugging will default to `console.log`. Same behavior apply if `debug` option is set to `true`.
+
+If `debug` option is a function, it will be run with a single message argument.
+
+## :game_die: Running tests
+
+This package is tested against multiple different scenarios with [Mocha][mocha] and [chai][chai] (through `expect` BDD style).
+
+In order to run tests locally, you have to:
+- clone this repository
+- install development dependencies with `npm install` (or `yarn install`)
+- run tests with `npm test` (or `yarn test`)
+
+_Note: tests are run in bail mode. This means that whenever a test fails, all following tests are aborted._
+
+### Debugging tests buffers
+
+Because tests work with buffers, it can be tedious to debug them and understand why they fail.
+
+To make this easier, you can define a `DEBUG_BUFFERS` environment variable (to any value) in order to enable « buffers debugging mode ». This mode will simply write two files for each tests failing (each file is prefixed by test number `x`):
+- expected result: `x_expected.log`
+- received result: `x_received.log`
+
+## :busts_in_silhouette: Contributing
+
+See [CONTRIBUTING.md][contribute].
+
 ## :1234: Versioning
 
 This project uses [SemVer][semver] for versioning. For the versions available, see the [tags on this repository][repotags]. 
@@ -265,3 +266,46 @@ This project uses [SemVer][semver] for versioning. For the versions available, s
 ## :pray: Acknowledgments
 
 Obviously, [Luca Grulla][lucagrulla] for inspiring me to do this.
+
+[actionshield]: https://github.com/g-script/better-tail/workflows/Lint%20and%20test%20JS%20files/badge.svg
+[actions]: https://github.com/g-script/better-tail/actions
+[npmshield]: https://img.shields.io/npm/v/better-tail.svg
+[npmpackage]: https://www.npmjs.com/package/better-tail
+[standardshield]: https://img.shields.io/badge/code_style-standard-brightgreen.svg
+[standard]: https://standardjs.com
+[licenseshield]: https://img.shields.io/github/license/mashape/apistatus.svg
+[license]: https://github.com/g-script/better-tail/blob/master/LICENSE
+[lucagrullatail]: https://www.npmjs.com/package/tail
+[tailissue]: https://github.com/lucagrulla/node-tail/issues/115
+[motivation]: #fire-motivation
+[installation]: #floppy_disk-installation
+[usage]: #beginner-usage
+[parameters]: #nut_and_bolt-parameters
+[target]: #dart-target
+[options]: #speech_balloon-options
+[bytes-option]: #bytes-default-undefined
+[follow-option]: #follow-default-false
+[lines-option]: #lines-default-10
+[retry-option]: #retry-default-false
+[sleepinterval-option]: #sleepinterval-default-1000
+[encoding-option]: #encoding-default-utf8
+[methods]: #book-methods
+[unfollow-method]: #unfollow
+[events]: #calendar-events
+[data-event]: #data
+[error-event]: #error
+[end-event]: #end
+[next]: #construction-whats-coming-next
+[debugging]: #beetle-debugging
+[running-tests]: #game_die-running-tests
+[mocha]: https://mochajs.org
+[chai]: https://www.chaijs.com/api/bdd/
+[contributing]: #busts_in_silhouette-contributing
+[contribute]: https://github.com/g-script/better-tail/blob/master/CONTRIBUTING.md
+[versioning]: #1234-versioning
+[authors]: #octocat-authors
+[acknowledgments]: #pray-acknowledgments
+[semver]: http://semver.org
+[repotags]: https://github.com/g-script/better-tail/tags
+[nicolas-goudry]: https://github.com/nicolas-goudry
+[lucagrulla]: https://github.com/lucagrulla
