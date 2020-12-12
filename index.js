@@ -13,7 +13,7 @@ function isFD (fd) {
     try {
       fs.fstatSync(fd)
 
-      return true
+      return fd
     } catch (err) {
       if (err.code === 'EBADF') {
         return false
@@ -21,6 +21,8 @@ function isFD (fd) {
 
       throw err
     }
+  } else if (fd && fd.fd) {
+    return isFD(fd.fd)
   }
 
   return false
