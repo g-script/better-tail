@@ -141,7 +141,6 @@ describe('better-tail', function () {
             const data = []
     
             new Tail(target).on('data', (line) => {
-                console.log(line.toString('utf8'))
                 data.push(line)
             }).on('end', () => {
                 expect(data[0]).to.be.instanceof(Buffer, 'Expected data to be an instance of Buffer')
@@ -174,9 +173,7 @@ describe('better-tail', function () {
             const buff = Buffer.alloc(bytes)
             
             // Read file last N bytes
-            fs.readSync(corpus.fd, buff, {
-                position: contentByteLength - bytes
-            })
+            fs.readSync(corpus.fd, buff, 0, buff.length, contentByteLength - bytes)
 
             const data = []
     
@@ -214,9 +211,7 @@ describe('better-tail', function () {
             const buff = Buffer.alloc(contentByteLength - startAtByte)
             
             // Read file from picked byte
-            fs.readSync(corpus.fd, buff, {
-                position: startAtByte
-            })
+            fs.readSync(corpus.fd, buff, 0, buff.length, startAtByte)
 
             const data = []
     
@@ -260,9 +255,7 @@ describe('better-tail', function () {
             const buff = Buffer.allocUnsafe(linesByteLength)
             
             // Read file from last N lines byte length
-            fs.readSync(corpus.fd, buff, {
-                position: contentByteLength - linesByteLength
-            })
+            fs.readSync(corpus.fd, buff, 0, buff.length, contentByteLength - linesByteLength)
 
             const data = []
     
@@ -306,9 +299,7 @@ describe('better-tail', function () {
             const linesByteLength = Buffer.byteLength(contentLines.slice(lines).join('\r\n'))
             const buff = Buffer.allocUnsafe(linesByteLength)
             
-            fs.readSync(corpus.fd, buff, {
-                position: contentByteLength - linesByteLength
-            })
+            fs.readSync(corpus.fd, buff, 0, buff.length, contentByteLength - linesByteLength)
 
             const data = []
     
