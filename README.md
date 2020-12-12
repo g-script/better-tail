@@ -1,40 +1,3 @@
-[actionshield]: https://github.com/g-script/better-tail/workflows/Lint%20and%20test%20JS%20files/badge.svg
-[actions]: https://github.com/g-script/better-tail/actions
-[npmshield]: https://img.shields.io/npm/v/better-tail.svg
-[npmpackage]: https://www.npmjs.com/package/better-tail
-[standardshield]: https://img.shields.io/badge/code_style-standard-brightgreen.svg
-[standard]: https://standardjs.com
-[licenseshield]: https://img.shields.io/github/license/mashape/apistatus.svg
-[license]: https://github.com/g-script/better-tail/blob/master/LICENSE
-[lucagrullatail]: https://www.npmjs.com/package/tail
-[tailissue]: https://github.com/lucagrulla/node-tail/issues/115
-[motivation]: #fire-motivation
-[installation]: #floppy_disk-installation
-[usage]: #beginner-usage
-[parameters]: #nut_and_bolt-parameters
-[target]: #dart-target
-[options]: #speech_balloon-options
-[bytes-option]: #bytes-default-undefined
-[follow-option]: #follow-default-false
-[lines-option]: #lines-default-10
-[retry-option]: #retry-default-false
-[sleepinterval-option]: #sleepinterval-default-1000
-[encoding-option]: #encoding-default-utf8
-[methods]: #book-methods
-[unfollow-method]: #unfollow
-[events]: #calendar-events
-[data-event]: #data
-[error-event]: #error
-[end-event]: #end
-[next]: #construction-whats-coming-next
-[versioning]: #1234-versioning
-[authors]: #octocat-authors
-[acknowledgments]: #pray-acknowledgments
-[semver]: http://semver.org
-[repotags]: https://github.com/g-script/better-tail/tags
-[nicolas-goudry]: https://github.com/nicolas-goudry
-[lucagrulla]: https://github.com/lucagrulla
-
 # better-tail
 
 Node.js implementation of UNIX `tail` command using streams. No dependencies :no_entry_sign:.
@@ -265,3 +228,42 @@ This project uses [SemVer][semver] for versioning. For the versions available, s
 ## :pray: Acknowledgments
 
 Obviously, [Luca Grulla][lucagrulla] for inspiring me to do this.
+
+[actionshield]: https://github.com/g-script/better-tail/workflows/Lint%20and%20test%20JS%20files/badge.svg
+[actions]: https://github.com/g-script/better-tail/actions
+[npmshield]: https://img.shields.io/npm/v/better-tail.svg
+[npmpackage]: https://www.npmjs.com/package/better-tail
+[standardshield]: https://img.shields.io/badge/code_style-standard-brightgreen.svg
+[standard]: https://standardjs.com
+[licenseshield]: https://img.shields.io/github/license/mashape/apistatus.svg
+[license]: https://github.com/g-script/better-tail/blob/master/LICENSE
+[lucagrullatail]: https://www.npmjs.com/package/tail
+[tailissue]: https://github.com/lucagrulla/node-tail/issues/115
+[motivation]: #fire-motivation
+[installation]: #floppy_disk-installation
+[usage]: #beginner-usage
+[parameters]: #nut_and_bolt-parameters
+[target]: #dart-target
+[options]: #speech_balloon-options
+[bytes-option]: #bytes-default-undefined
+[follow-option]: #follow-default-false
+[lines-option]: #lines-default-10
+[retry-option]: #retry-default-false
+[sleepinterval-option]: #sleepinterval-default-1000
+[encoding-option]: #encoding-default-utf8
+[methods]: #book-methods
+[unfollow-method]: #unfollow
+[events]: #calendar-events
+[data-event]: #data
+[error-event]: #error
+[end-event]: #end
+[next]: #construction-whats-coming-next
+[contributing]: #busts_in_silhouette-contributing
+[contribute]: https://github.com/g-script/better-tail/blob/master/CONTRIBUTING.md
+[versioning]: #1234-versioning
+[authors]: #octocat-authors
+[acknowledgments]: #pray-acknowledgments
+[semver]: http://semver.org
+[repotags]: https://github.com/g-script/better-tail/tags
+[nicolas-goudry]: https://github.com/nicolas-goudry
+[lucagrulla]: https://github.com/lucagrulla
