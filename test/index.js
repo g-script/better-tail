@@ -379,6 +379,7 @@ describe('better-tail', function () {
         it('should fail to tail invalid file', function (done) {
             new Tail(path.resolve(__dirname, `${randomString(10)}.txt`)).on('error', (err) => {
                 expect(err).to.be.instanceof(Error)
+                    .and.have.property('code', 'ENOENT')
                 done()
             })
         })
@@ -386,6 +387,7 @@ describe('better-tail', function () {
         it('should fail to tail invalid file descriptor', function (done) {
             new Tail(654).on('error', (err) => {
                 expect(err).to.be.instanceof(Error)
+                    .and.have.property('message', 'Invalid target provided')
                 done()
             })
         })
