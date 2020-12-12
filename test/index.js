@@ -121,7 +121,7 @@ describe('better-tail', function () {
             const maxRetry = this.currentTest.retries()
             
             // Only clean debug log files if current retry lesser than max allowed retries and test is not in error
-            if (curRetry > 0 && curRetry < maxRetry && !this.currentTest.err) {
+            if (curRetry >= 0 && curRetry < maxRetry && !this.currentTest.err) {
                 const receivedLogPath = getReceivedLogPath()
                 const expectedLogPath = getExpectedLogPath()
 
@@ -205,7 +205,9 @@ describe('better-tail', function () {
         })
 
         it('should fail with invalid value', function (done) {
-            new Tail(corpus.path, { bytes: 'abc' }).on('error', (err) => {
+            new Tail(corpus.path, {
+                bytes: 'abc'
+            }).on('error', (err) => {
                 expect(err).to.be.instanceof(Error)
                     .and.have.property('message').that.match(/^Invalid value provided to/)
                 done()
@@ -296,7 +298,9 @@ describe('better-tail', function () {
         })
 
         it('should fail with invalid value', function (done) {
-            new Tail(corpus.path, { lines: {} }).on('error', (err) => {
+            new Tail(corpus.path, {
+                lines: {}
+            }).on('error', (err) => {
                 expect(err).to.be.instanceof(Error)
                     .and.have.property('message').that.match(/^Invalid value provided to/)
                 done()
@@ -391,7 +395,50 @@ describe('better-tail', function () {
         })
 
         it('should fail with invalid value', function (done) {
-            new Tail(corpus.path, { follow: [] }).on('error', (err) => {
+            new Tail(corpus.path, {
+                follow: []
+            }).on('error', (err) => {
+                expect(err).to.be.instanceof(Error)
+                    .and.have.property('message').that.match(/^Invalid value provided to/)
+                done()
+            })
+        })
+    })
+
+    describe('retry option', function () {
+        const filePathToWait = path.resolve(__dirname, 'im-coming-in-5.txt')
+
+        after(function () {
+            if (fs.existsSync(filePathToWait)) {
+                fs.unlinkSync(filePathToWait)
+            }
+        })
+
+        it('should retry until file is accessible', function (done) {
+            this.timeout(10000)
+            this.slow(5500)
+
+            const data = []
+
+            setTimeout(() => {
+                fs.writeFileSync(filePathToWait, corpus.expectations.noOptions, { encoding: 'utf8' })
+            })
+
+            new Tail(filePathToWait, {
+                retry: true
+            }).on('data', (line) => {
+                data.push(line)
+            }).on('end', () => {
+                expect(data[0]).to.be.instanceof(Buffer, 'Expected data to be an instance of Buffer')
+                expectBuffToBeEqual(Buffer.concat(addLT(data)), corpus.expectations.noOptions)
+                done()
+            })
+        })
+
+        it('should fail with invalid value', function (done) {
+            new Tail(corpus.path, {
+                retry: () => {}
+            }).on('error', (err) => {
                 expect(err).to.be.instanceof(Error)
                     .and.have.property('message').that.match(/^Invalid value provided to/)
                 done()
