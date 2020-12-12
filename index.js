@@ -186,7 +186,7 @@ class Tail extends Readable {
       } else {
         const buff = Buffer.alloc(fs.fstatSync(this.target).size)
 
-        fs.readSync(this.target, buff, { position: 0 })
+        fs.readSync(this.target, buff, 0, buff.length, 0)
 
         data = buff.toString(this.options.encoding)
       }
