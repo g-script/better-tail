@@ -136,7 +136,7 @@ describe('better-tail', function () {
         }
     })
 
-    describe('should tail file last 10 lines (default)', function () {
+    describe('no options', function () {
         function test (target, done) {
             const data = []
     
@@ -150,20 +150,20 @@ describe('better-tail', function () {
             })
         }
 
-        it('with target file path', function (done) {
+        it('should work with file path', function (done) {
             test(corpus.path, done)
         })
     
-        it('with file descriptor', function (done) {
+        it('should work with file descriptor', function (done) {
             test(corpus.fd, done)
         })
     
-        it('with stream', function (done) {
+        it('should work with file read stream', function (done) {
             test(corpus.rs, done)
         })
     })
 
-    describe('should tail file last N bytes', function () {
+    describe('bytes option (last bytes)', function () {
         function test (target, done) {
             // Get content length in bytes
             const contentByteLength = Buffer.byteLength(corpus.expectations.content, 'utf8')
@@ -188,20 +188,20 @@ describe('better-tail', function () {
             })
         }
 
-        it('with target file path', function (done) {
+        it('should work with file path', function (done) {
             test(corpus.path, done)
         })
     
-        it('with file descriptor', function (done) {
+        it('should work with file descriptor', function (done) {
             test(corpus.fd, done)
         })
     
-        it('with stream', function (done) {
+        it('should work with file read stream', function (done) {
             test(corpus.rs, done)
         })
     })
 
-    describe('should tail file from Nth byte', function () {
+    describe('bytes option (from byte)', function () {
         function test (target, done) {
             // Get content length in bytes
             const contentByteLength = Buffer.byteLength(corpus.expectations.content, 'utf8')
@@ -226,20 +226,20 @@ describe('better-tail', function () {
             })
         }
 
-        it('with target file path', function (done) {
+        it('should work with file path', function (done) {
             test(corpus.path, done)
         })
     
-        it('with file descriptor', function (done) {
+        it('should work with file descriptor', function (done) {
             test(corpus.fd, done)
         })
     
-        it('with stream', function (done) {
+        it('should work with file read stream', function (done) {
             test(corpus.rs, done)
         })
     })
 
-    describe('should tail file last N lines', function () {
+    describe('lines option (last lines)', function () {
         function test (target, done) {
             // Get content length in bytes
             const contentByteLength = Buffer.byteLength(corpus.expectations.content, 'utf8')
@@ -271,20 +271,20 @@ describe('better-tail', function () {
             })
         }
 
-        it('with target file path', function (done) {
+        it('should work with file path', function (done) {
             test(corpus.path, done)
         })
     
-        it('with file descriptor', function (done) {
+        it('should work with file descriptor', function (done) {
             test(corpus.fd, done)
         })
     
-        it('with stream', function (done) {
+        it('should work with file read stream', function (done) {
             test(corpus.rs, done)
         })
     })
 
-    describe('should tail file from Nth line', function () {
+    describe('lines option (from line)', function () {
         function test (target, done) {
             // Get content length in bytes
             const contentByteLength = Buffer.byteLength(corpus.expectations.content, 'utf8')
@@ -315,20 +315,20 @@ describe('better-tail', function () {
             })
         }
 
-        it('with target file path', function (done) {
+        it('should work with file path', function (done) {
             test(corpus.path, done)
         })
     
-        it('with file descriptor', function (done) {
+        it('should work with file descriptor', function (done) {
             test(corpus.fd, done)
         })
     
-        it('with stream', function (done) {
+        it('should work with file read stream', function (done) {
             test(corpus.rs, done)
         })
     })
 
-    describe('follow mode', function () {
+    describe('follow option', function () {
         it('should follow data quickly appended to file (backpressure)', function (done) {
             const rndStrSize = randomInt()
     
