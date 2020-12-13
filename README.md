@@ -123,7 +123,7 @@ new Tail(target, { bytes: 42 })
 new Tail(target, { bytes: '+42' })
 ```
 
-_If this option is set, it superseeds [lines option][lines-option]._
+_If this option is set, it supersedes [lines option][lines-option]._
 
 #### follow _(default: false)_
 
@@ -159,7 +159,7 @@ new Tail(target, { bytes: 42 })
 new Tail(target, { bytes: '+42' })
 ```
 
-_This option is superseeded by [bytes option][bytes-option]._
+_This option is superseded by [bytes option][bytes-option]._
 
 #### retry _(default: false)_
 
