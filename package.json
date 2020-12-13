@@ -22,7 +22,10 @@
   "keywords": [
     "tail"
   ],
-  "author": "Nicolas Goudry <goudry.nicolas@gmail.com>",
+  "author": "Nicolas Goudry <goudry.nicolas@gmail.com> (https://github.com/nicolas-goudry)",
+  "contributors": [
+    "EvertEt (https://github.com/EvertEt)"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/g-script/better-tail/issues"
