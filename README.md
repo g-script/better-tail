@@ -159,7 +159,7 @@ new Tail(target, { bytes: 42 })
 new Tail(target, { bytes: '+42' })
 ```
 
-_This option is superseeded by [bytes option][bytes-option]._
+_This option is superseded by [bytes option][bytes-option]._
 
 #### retry _(default: false)_
 
