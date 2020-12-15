@@ -41,7 +41,7 @@ I needed to tail files for a corporate side project, made a few research on what
 
 - did not find any package allowing to tail **with or without** following file
 - did not find any package allowing to **target file’s N last lines**
-- lots of them use EventEmitter rather than Stream
+- lots of them extends EventEmitter rather than Stream
 - lots of them are unmaintained since _years_
 - majority have unneeded dependencies
 
@@ -51,13 +51,13 @@ At first, I wanted to tweak [Luca Grulla’s `tail`][lucagrullatail] package to 
 
 So, I ended up decaffeinating it and rewriting it in pure JS. Then tweaked it as I wanted.
 
-What I came up with was great, working and all, but then I stumbled upon an issue where lines were mixed when file from which I was reading was being appended too fast. This **is** an [open issue of `tail`][tailissue]
+What I came up with was great, working and all, but then I stumbled upon an issue where lines were mixed when file from which I was reading was being appended too fast. This **is** an [open issue of `tail`][tailissue].
 
 :thinking: “Why not use streams after all ?” Makes sense.
 
 Let me introduce you to `better-tail` then !
 
-*Note: not that it’s better than others, but other package names are either squatted or unavailable.*
+> _Note: not that it’s better than others, but other package names are either squatted or unavailable._
 
 :point_down::point_down::point_down:
 
@@ -77,7 +77,7 @@ const Tail = require('better-tail')
 const tail = new Tail('path-to-file-to-tail')
 
 tail.on('data', function (line) {
-  console.log(line)
+  console.log(line.toString('utf8'))
 }).on('error', function (err) {
   console.error(err)
 })
@@ -90,7 +90,7 @@ Only `target` parameter is required.
 ### :dart: Target
 
 First parameter is the target to tail data from. It can be:
-- a string representing target file path
+- the string path to target file
 - a readable stream of target file
 - a file descriptor of target file
 
@@ -113,7 +113,7 @@ Second parameter is an object of following `options` (heavily inspired by UNIX `
 
 #### bytes _(default: undefined)_
 
-Number of bytes to tail. Can be prepend with `+` to start tailing from given byte.
+Number of bytes to tail. Can be prepended with `+` to start tailing from given byte.
 
 > _If this option is set, it supersedes [lines option][lines-option]._
 
@@ -126,7 +126,7 @@ new Tail(target, { bytes: '+42' })
 ```
 #### follow _(default: false)_
 
-Follow target new content. This option keeps polling target for new content until you stop following it.
+Keeps polling target file for appended data until you stop following it.
 
 Related:
 - [sleepInterval option][sleepinterval-option]
@@ -148,7 +148,7 @@ setTimeout(function () {
 
 #### lines _(default: 10)_
 
-Number of lines to tail. Can be prepend with `+` to start tailing from given line.
+Number of lines to tail. Can be prepended with `+` to start tailing from given line.
 
 > _This option is superseded by [bytes option][bytes-option]._
 
@@ -162,14 +162,18 @@ new Tail(target, { bytes: '+42' })
 
 #### retry _(default: false)_
 
-If set to true: keep trying to open target file if it is inaccessible.
+Can either be a boolean:
+- `true`: keep trying to open target file until it is accessible
+- `false`: emit an error if file is inaccessible
 
-Can also be an object with following properties:
+Or an object with following properties:
 - **interval**: wait for given milliseconds between retries
 - **timeout**: abort retrying after given milliseconds
 - **max**: abort retrying after given retries count
 
-> _This option uses [sleepInterval option][sleepinterval-option] value by default to wait between retries._
+If given an object, it means **target file opening will be retried upon failure**.
+
+> _This option uses [sleepInterval option][sleepinterval-option] value by default to wait between retries if `interval` property is not set._
 
 ```js
 // Will retry indefinitly, approximately each second (default value of sleepInterval option), until file is accessible
@@ -186,23 +190,23 @@ new Tail(target, { retry: { timeout: 5000 } })
 new Tail(target, { retry: { max: 3 } })
 
 // Will retry 5 times or approximately 3 seconds before aborting
-new Tail(target, { retry: { timeout: 3000, max: 5, interval: 5000 } })
+new Tail(target, { retry: { timeout: 3000, max: 5, interval: 500 } })
 ```
 
 #### sleepInterval _(default: 1000)_
 
-Sleep for approximately N milliseconds between target content next poll.
+Sleep for approximately N milliseconds between target file polls.
 
 > _This option has no effect if [follow option][follow-option] is set to `false`._
 
 ```js
-// Will poll target new data approximately each 5 seconds
+// Will poll target file data approximately each 5 seconds
 new Tail(target, { follow: true, sleepInterval: 5000 })
 ```
 
 #### encoding _(default: 'utf8')_
 
-Set target’s content encoding.
+Set target file's content encoding.
 
 Supported encodings are [those supported by Node.js][node-encodings]:
 - `utf8`
@@ -243,16 +247,17 @@ new Tail(target).on('data', function (line) {
 Errors will be emitted through this event. If an error is emitted, underlying stream is destroyed.
 
 Errors can be emitted in following scenarios:
+- an invalid option was provided
 - an invalid target was provided
 - could not guess target type
-- failed to access target
+- failed to access target (or retry error)
 - failed to get target content
 - failed to get target size
 - failed to create read stream to read target content
 
 ### end
 
-This event is emitted each time target content end is reached. Therefore, it can fire multiple times if [follow option][follow-option] is set to `true`.
+This event is emitted each time target file content end is reached. Therefore, it can fire multiple times if [follow option][follow-option] is set to `true`.
 
 ## :construction: What’s coming next?
 
@@ -282,7 +287,7 @@ In order to run tests locally, you have to:
 - install development dependencies with `npm install` (or `yarn install`)
 - run tests with `npm test` (or `yarn test`)
 
-_Note: tests are run in bail mode. This means that whenever a test fails, all following tests are aborted._
+> _Tests are run in bail mode. This means that whenever a test fails, all following tests are aborted._
 
 ### Debugging tests buffers
 
