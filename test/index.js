@@ -379,10 +379,8 @@ describe('better-tail', function () {
             
             const tail = new Tail(expectedLogPath, {
                 follow: true
-            }).on('data', (chunk) => {
-                const data = chunk.toString('utf8')
-    
-                fs.appendFileSync(receivedLogPath, `${data}\n`)
+            }).on('line', (line) => {
+                fs.appendFileSync(receivedLogPath, `${line}\n`)
             })
     
             for (let i = 0; i < rndStrSize; i++) {
