@@ -404,6 +404,42 @@ describe('better-tail', function () {
             })
         })
 
+        it('should emit on target truncating', function (done) {
+            this.timeout(4000)
+            this.slow(4000)
+
+            const lines = []
+            const expectedLogPath = getExpectedLogPath()
+    
+            fs.writeFileSync(expectedLogPath, '')
+
+            const tail = new Tail(expectedLogPath, {
+                follow: true
+            }).on('line', (line) => {
+                lines.push(line)
+            })
+
+            for (let i = 0; i < 10; i++) {
+                fs.appendFileSync(expectedLogPath, `${i}\n`)
+            }
+
+            setTimeout(() => {
+                fs.writeFileSync(expectedLogPath, 'override file data')
+
+                tail.on('end', () => {
+                    tail.unfollow()
+
+                    expect(lines[lines.length - 2]).to.equal('better-tail: file truncated')
+
+                    if (!DEB_BUFF) {
+                        fs.unlinkSync(expectedLogPath)
+                    }
+
+                    done()
+                })
+            }, 2000)
+        })
+
         it('should fail with invalid value', function (done) {
             new Tail(corpus.path, {
                 follow: []
