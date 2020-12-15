@@ -83,6 +83,51 @@ tail.on('data', function (line) {
 })
 ```
 
+### :bulb: **Good to know**
+
+#### New line at end of target file
+
+If target file ends with a newline, last [`line` and `data` events][events] will emit an empty string.
+
+This behavior is **not to be expected** with [`follow` option][follow-option] set to `true`.
+
+#### Truncating target file
+
+If target file content is truncated while reading, [`line` and `data` events][events] will be emitted with following message : 
+
+```
+better-tail: file truncated
+```
+
+Reading will then start again with original options.
+
+Example:
+
+```js
+new Tail(target, { follow: true, lines: 1 })
+
+// Data is flowing
+`Some content
+is written
+to target file
+and suddenly
+`
+
+// Data is truncated
+`Some content
+is written
+to tar
+`
+
+// Emitted events would be
+`better-tail: file truncated`
+
+// Followed by
+`to tar`
+```
+
+We only asked for last line (`lines: 1`), so after truncating, tailing « restarts » and only emits last line of target file.
+
 ## :nut_and_bolt: Parameters
 
 Only `target` parameter is required.
