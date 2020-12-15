@@ -161,6 +161,18 @@ describe('better-tail', function () {
         it('should work with file read stream', function (done) {
             test(corpus.rs, done)
         })
+
+        it('should emit line already encoded', function (done) {
+            const lines = []
+
+            new Tail(corpus.path).on('line', (line) => {
+                lines.push(line)
+            }).on('end', () => {
+                expect(lines).to.have.lengthOf(10, 'Lines count mismatch')
+                expect(lines.join('\r\n')).to.equal(fs.readFileSync(paths.expectations.noOptions, { encoding: 'utf8', flag: 'r' }))
+                done()
+            })
+        })
     })
 
     describe('bytes option (last bytes)', function () {
@@ -367,10 +379,8 @@ describe('better-tail', function () {
             
             const tail = new Tail(expectedLogPath, {
                 follow: true
-            }).on('data', (chunk) => {
-                const data = chunk.toString('utf8')
-    
-                fs.appendFileSync(receivedLogPath, `${data}\n`)
+            }).on('line', (line) => {
+                fs.appendFileSync(receivedLogPath, `${line}\n`)
             })
     
             for (let i = 0; i < rndStrSize; i++) {
@@ -392,6 +402,42 @@ describe('better-tail', function () {
                 
                 done()
             })
+        })
+
+        it('should emit on target truncating', function (done) {
+            this.timeout(4000)
+            this.slow(4000)
+
+            const lines = []
+            const expectedLogPath = getExpectedLogPath()
+    
+            fs.writeFileSync(expectedLogPath, '')
+
+            const tail = new Tail(expectedLogPath, {
+                follow: true
+            }).on('line', (line) => {
+                lines.push(line)
+            })
+
+            for (let i = 0; i < 10; i++) {
+                fs.appendFileSync(expectedLogPath, `${i}\n`)
+            }
+
+            setTimeout(() => {
+                fs.writeFileSync(expectedLogPath, 'override file data')
+
+                tail.on('end', () => {
+                    tail.unfollow()
+
+                    expect(lines[lines.length - 2]).to.equal('better-tail: file truncated')
+
+                    if (!DEB_BUFF) {
+                        fs.unlinkSync(expectedLogPath)
+                    }
+
+                    done()
+                })
+            }, 2000)
         })
 
         it('should fail with invalid value', function (done) {

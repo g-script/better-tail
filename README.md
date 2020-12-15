@@ -76,12 +76,57 @@ const Tail = require('better-tail')
 
 const tail = new Tail('path-to-file-to-tail')
 
-tail.on('data', function (line) {
-  console.log(line.toString('utf8'))
+tail.on('line', function (line) {
+  console.log(line)
 }).on('error', function (err) {
   console.error(err)
 })
 ```
+
+### :bulb: **Good to know**
+
+#### New line at end of target file
+
+If target file ends with a newline, last [`line` and `data` events][events] will emit an empty string.
+
+This behavior is **not to be expected** with [`follow` option][follow-option] set to `true`.
+
+#### Truncating target file
+
+If target file content is truncated while reading, [`line` and `data` events][events] will be emitted with following message : 
+
+```
+better-tail: file truncated
+```
+
+Reading will then start again with original options.
+
+Example:
+
+```js
+new Tail(target, { follow: true, lines: 1 })
+
+// Data is flowing
+`Some content
+is written
+to target file
+and suddenly
+`
+
+// Data is truncated
+`Some content
+is written
+to tar
+`
+
+// Emitted events would be
+`better-tail: file truncated`
+
+// Followed by
+`to tar`
+```
+
+We only asked for last line (`lines: 1`), so after truncating, tailing « restarts » and only emits last line of target file.
 
 ## :nut_and_bolt: Parameters
 
@@ -135,7 +180,7 @@ Related:
 ```js
 const tail = new Tail(target, { follow: true })
 
-tail.on('data', function (line) {
+tail.on('line', function (line) {
   console.log(line)
 }).on('error', function (err) {
   console.error(err)
@@ -230,15 +275,23 @@ _This method has no effect if [follow option][follow-option] is set to `false`._
 
 ## :calendar: Events
 
-### data
+### line
 
-As with classic readable streams, data is emitted through this event.
-
-:warning: Data is always emitted as a Buffer object encoded with given [encoding option][encoding-option].
+Decoded lines are emitted through this event.
 
 ```js
-new Tail(target).on('data', function (line) {
-  console.log(line.toString('utf8'))
+new Tail(target).on('line', function (line) {
+  console.log(line)
+})
+```
+
+### data
+
+Lines encoded to a Buffer object with given [encoding option][encoding-option] are emitted through this event.
+
+```js
+new Tail(target).on('data', function (chunk) {
+  console.log(chunk.toString('utf8'))
 })
 ```
 
@@ -261,9 +314,6 @@ This event is emitted each time target file content end is reached. Therefore, i
 
 ## :construction: What’s coming next?
 
-- lines will be emitted through a new `line` event
-- lines will be emitted as a string encoded with given encoding option, removing the pain of doing `.toString('utf8')` on each emitted event
-- raw data (as Buffer) will be emitted through `data` event
 - add support for readable streams not targetting files
 
 ## :beetle: Debugging
