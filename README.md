@@ -76,8 +76,8 @@ const Tail = require('better-tail')
 
 const tail = new Tail('path-to-file-to-tail')
 
-tail.on('data', function (line) {
-  console.log(line.toString('utf8'))
+tail.on('line', function (line) {
+  console.log(line)
 }).on('error', function (err) {
   console.error(err)
 })
@@ -180,7 +180,7 @@ Related:
 ```js
 const tail = new Tail(target, { follow: true })
 
-tail.on('data', function (line) {
+tail.on('line', function (line) {
   console.log(line)
 }).on('error', function (err) {
   console.error(err)
@@ -275,15 +275,23 @@ _This method has no effect if [follow option][follow-option] is set to `false`._
 
 ## :calendar: Events
 
-### data
+### line
 
-As with classic readable streams, data is emitted through this event.
-
-:warning: Data is always emitted as a Buffer object encoded with given [encoding option][encoding-option].
+Decoded lines are emitted through this event.
 
 ```js
-new Tail(target).on('data', function (line) {
-  console.log(line.toString('utf8'))
+new Tail(target).on('line', function (line) {
+  console.log(line)
+})
+```
+
+### data
+
+Lines encoded to a Buffer object with given [encoding option][encoding-option] are emitted through this event.
+
+```js
+new Tail(target).on('data', function (chunk) {
+  console.log(chunk.toString('utf8'))
 })
 ```
 
@@ -306,9 +314,6 @@ This event is emitted each time target file content end is reached. Therefore, i
 
 ## :construction: What’s coming next?
 
-- lines will be emitted through a new `line` event
-- lines will be emitted as a string encoded with given encoding option, removing the pain of doing `.toString('utf8')` on each emitted event
-- raw data (as Buffer) will be emitted through `data` event
 - add support for readable streams not targetting files
 
 ## :beetle: Debugging
