@@ -161,6 +161,18 @@ describe('better-tail', function () {
         it('should work with file read stream', function (done) {
             test(corpus.rs, done)
         })
+
+        it('should emit line already encoded', function (done) {
+            const lines = []
+
+            new Tail(corpus.path).on('line', (line) => {
+                lines.push(line)
+            }).on('end', () => {
+                expect(lines).to.have.lengthOf(10, 'Lines count mismatch')
+                expect(lines.join('\r\n')).to.equal(fs.readFileSync(paths.expectations.noOptions, { encoding: 'utf8', flag: 'r' }))
+                done()
+            })
+        })
     })
 
     describe('bytes option (last bytes)', function () {
